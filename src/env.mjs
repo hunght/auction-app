@@ -61,6 +61,7 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     BASE_URL: process.env.BASE_URL,
+    NEXT_PUBLIC_HIGHT_LIGHT_IO_KEY: process.env.NEXT_PUBLIC_HIGHT_LIGHT_IO_KEY,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     JWT_SECRET: process.env.JWT_SECRET,
     HIGHT_LIGHT_IO_KEY: process.env.HIGHT_LIGHT_IO_KEY,
