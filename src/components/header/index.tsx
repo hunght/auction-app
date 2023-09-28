@@ -7,13 +7,16 @@ import {
   MenubarItem,
   MenubarMenu,
   MenubarSeparator,
-  MenubarShortcut,
   MenubarTrigger,
 } from "~/components/ui/menubar";
+import { useRouter } from "next/router";
+import { api } from "~/utils/api";
 
 const Header: React.FunctionComponent<{ username?: string }> = ({
   username,
 }) => {
+  const router = useRouter();
+  const utils = api.useContext();
   return (
     <header className="mb-4 flex items-center justify-between">
       <div>
@@ -29,14 +32,28 @@ const Header: React.FunctionComponent<{ username?: string }> = ({
                 <UserCircleIcon className="h-8 w-8 cursor-pointer rounded-full" />
               </MenubarTrigger>
               <MenubarContent>
-                <MenubarItem>
-                  New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+                <MenubarItem
+                  onClick={() => {
+                    console.log("first");
+                  }}
+                >
+                  Create New Item
                 </MenubarItem>
-                <MenubarItem>New Window</MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem>Share</MenubarItem>
+                <MenubarItem>Deposit</MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem>Logout</MenubarItem>
+                <MenubarItem
+                  onClick={() => {
+                    localStorage.removeItem("token");
+
+                    void utils.auth.getProfile.invalidate().finally(() => {
+                      console.log("username", username);
+                      void router.replace("/");
+                    });
+                  }}
+                >
+                  Logout
+                </MenubarItem>
               </MenubarContent>
             </MenubarMenu>
           </Menubar>

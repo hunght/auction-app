@@ -2,6 +2,7 @@
 
 import React from "react";
 import Header from "~/components/header";
+import Loading from "~/components/loading";
 
 import { useAuthRedirect } from "~/hooks/useAuthRedirect";
 
@@ -13,7 +14,9 @@ interface AuctionItem {
 }
 
 const Home: React.FC = () => {
-  const { user, isLoading } = useAuthRedirect();
+  const { user, isFetching, isError } = useAuthRedirect();
+  console.log("isError", isError);
+  console.log("isFetching", isFetching);
   const auctionItems: AuctionItem[] = [
     { id: 1, name: "Item 1", currentPrice: 50, duration: "1d" },
     { id: 2, name: "Item 2", currentPrice: 75, duration: "2d" },
@@ -22,7 +25,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <Header username={user?.email} />
+      <Header username={!isError ? user?.email : undefined} />
       <table className="w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
@@ -47,6 +50,7 @@ const Home: React.FC = () => {
           ))}
         </tbody>
       </table>
+      <Loading isLoading={isFetching} />
     </div>
   );
 };
