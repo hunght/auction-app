@@ -11,7 +11,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       {/* <HighlightInit
         projectId={env.NEXT_PUBLIC_HIGHT_LIGHT_IO_KEY}
         serviceName="my-nextjs-frontend"
-        tracingOrigins={["localhost", "example.myapp.com/backend"]}
+        tracingOrigins={["localhost", "auction-h4p9z8i4p-hth321.vercel.app"]}
         networkRecording={{
           enabled: true,
           recordHeadersAndBody: true,

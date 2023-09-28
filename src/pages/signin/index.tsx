@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useToast } from "~/components/ui/use-toast";
 import { api } from "~/utils/api";
-import { H } from "@highlight-run/next/client";
+// import { H } from "@highlight-run/next/client";
 const SigninPage: React.FC = () => {
   const utils = api.useContext();
   const [email, setEmail] = useState("");
@@ -17,7 +17,7 @@ const SigninPage: React.FC = () => {
       .then(({ token }) => {
         //store token in local storage
         if (token) {
-          H.identify(email);
+          // H.identify(email);
           localStorage.setItem("token", token);
           toast({
             title: "Login success",
