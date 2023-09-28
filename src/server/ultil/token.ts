@@ -15,9 +15,10 @@ export const generateToken = (userId: number): string => {
 
   // Options for the JWT token
   const options = {
-    expiresIn: "6h", // Token expiration time (e.g., 1 hour)
+    expiresIn: "2h", // Token expiration time (e.g., 1 hour)
   };
-
+  console.log("[generateToken] payload", payload);
+  console.log("[generateToken] env.JWT_SECRET", env.JWT_SECRET);
   // Sign the token with your secret key
   const token = jwt.sign(payload, env.JWT_SECRET, options);
 
@@ -29,7 +30,7 @@ type UserToken = {
 };
 
 // Function to decode and verify a JWT token
-export const decodeAndVerifyJwtToken = (token?: string): UserToken => {
+export const decodeAndVerifyJwtToken = (token?: string) => {
   try {
     if (!token) {
       throw new Error("No token provided");
@@ -38,6 +39,7 @@ export const decodeAndVerifyJwtToken = (token?: string): UserToken => {
     const decoded = jwt.verify(token, env.JWT_SECRET);
     return decoded as UserToken;
   } catch (err) {
-    throw new Error("Invalid token");
+    console.log("[decodeAndVerifyJwtToken] token", token);
+    console.log("[decodeAndVerifyJwtToken] env.JWT_SECRET", env.JWT_SECRET);
   }
 };

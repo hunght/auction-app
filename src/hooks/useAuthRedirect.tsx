@@ -10,6 +10,7 @@ export function useAuthRedirect() {
 
   useEffect(() => {
     if (!isLoading && !data) {
+      localStorage.removeItem("token");
       void router.push("/signin"); // Redirect to the login page if not authenticated
     }
   }, [isLoading, data]);

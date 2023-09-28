@@ -1,5 +1,5 @@
 import { createNextApiHandler } from "@trpc/server/adapters/next";
-import { Handlers } from "@highlight-run/node";
+// import { Handlers } from "@highlight-run/node";
 
 import { env } from "~/env.mjs";
 import { appRouter } from "~/server/api/root";
@@ -17,13 +17,13 @@ export default createNextApiHandler({
           );
         }
       : ({ error, req }) => {
-          void Handlers.trpcOnError(
-            { error, req },
-            {
-              projectID: env.HIGHT_LIGHT_IO_KEY,
-              serviceName: "my-trpc-app",
-              serviceVersion: "git-sha",
-            },
-          );
+          // void Handlers.trpcOnError(
+          //   { error, req },
+          //   {
+          //     projectID: env.HIGHT_LIGHT_IO_KEY,
+          //     serviceName: "my-trpc-app",
+          //     serviceVersion: "git-sha",
+          //   },
+          // );
         },
 });
