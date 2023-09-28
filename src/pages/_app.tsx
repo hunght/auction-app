@@ -1,6 +1,6 @@
 import { type AppType } from "next/app";
 import { api } from "~/utils/api";
-import { HighlightInit } from "@highlight-run/next/client";
+// import { HighlightInit } from "@highlight-run/next/client";
 import "~/styles/globals.css";
 import { Toaster } from "~/components/ui/toaster";
 import { env } from "~/env.mjs";
@@ -8,7 +8,7 @@ import { env } from "~/env.mjs";
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
-      <HighlightInit
+      {/* <HighlightInit
         projectId={env.NEXT_PUBLIC_HIGHT_LIGHT_IO_KEY}
         serviceName="my-nextjs-frontend"
         tracingOrigins={["localhost", "example.myapp.com/backend"]}
@@ -16,7 +16,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           enabled: true,
           recordHeadersAndBody: true,
         }}
-      />
+      /> */}
       <Component {...pageProps} />
       <Toaster />
     </>
