@@ -1,4 +1,5 @@
 import { createNextApiHandler } from "@trpc/server/adapters/next";
+import { Handlers } from "@highlight-run/node";
 
 import { env } from "~/env.mjs";
 import { appRouter } from "~/server/api/root";
@@ -15,5 +16,14 @@ export default createNextApiHandler({
             `❌ tRPC failed on ${path ?? "<no-path>"}: ${error.message}`,
           );
         }
-      : undefined,
+      : ({ error, req }) => {
+          void Handlers.trpcOnError(
+            { error, req },
+            {
+              projectID: "<YOUR_PROJECT_ID>",
+              serviceName: "my-trpc-app",
+              serviceVersion: "git-sha",
+            },
+          );
+        },
 });

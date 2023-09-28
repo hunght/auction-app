@@ -66,7 +66,7 @@ export const authRouter = createTRPCRouter({
       await resend.emails.send({
         from: "Acme <onboarding@resend.dev>",
         to: [email],
-        subject: "Hello world",
+        subject: "Verify your email",
         react: EmailTemplate({
           firstName: verificationLink,
         }) as React.ReactElement,

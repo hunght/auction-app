@@ -44,7 +44,7 @@ export const api = createTRPCNext<AppRouter>({
 
           /** headers are called on every request */
           headers: () => {
-            const token = localStorage.getItem("token");
+            const token = `Bearer ${localStorage.getItem("token")}`;
             if (!token) {
               return {};
             }
