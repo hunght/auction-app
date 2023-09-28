@@ -41,5 +41,6 @@ export const decodeAndVerifyJwtToken = (token?: string) => {
   } catch (err) {
     console.log("[decodeAndVerifyJwtToken] token", token);
     console.log("[decodeAndVerifyJwtToken] env.JWT_SECRET", env.JWT_SECRET);
+    throw err;
   }
 };

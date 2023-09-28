@@ -6,12 +6,16 @@ import { db } from "./db";
 export function createContext({ req, res }: CreateNextContextOptions) {
   // Create your context based on the request object
   // Will be available as `ctx` in all your resolvers
-
-  if (req.headers.authorization) {
-    const arrayStr = req.headers.authorization.split(" ");
-    const user = decodeAndVerifyJwtToken(arrayStr[1]);
-    return { user, db };
+  try {
+    if (req.headers.authorization) {
+      const arrayStr = req.headers.authorization.split(" ");
+      const user = decodeAndVerifyJwtToken(arrayStr[1]);
+      return { user, db };
+    }
+    return { user: null, db };
+  } catch (error) {
+    console.error(error);
+    return { user: null, db };
   }
-  return { user: null, db };
 }
 export type Context = inferAsyncReturnType<typeof createContext>;
