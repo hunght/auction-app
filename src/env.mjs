@@ -28,6 +28,7 @@ export const env = createEnv({
       ),
     BASE_URL: z
       .string()
+      .url()
       .refine(
         (str) => !str.includes("BASE_URL"),
         "You forgot to change the default URL",
@@ -52,6 +53,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
+    BASE_URL: process.env.BASE_URL,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     JWT_SECRET: process.env.JWT_SECRET,
     NODE_ENV: process.env.NODE_ENV,

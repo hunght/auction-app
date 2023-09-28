@@ -1,4 +1,5 @@
 // pages/verify.tsx
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { api } from "~/utils/api";
@@ -21,7 +22,15 @@ const VerifyTokenPage: React.FC = () => {
       <div className="w-96 rounded-md bg-white p-8 shadow-md">
         <h2 className="mb-4 text-2xl font-semibold">Email Verification</h2>
         {data?.success ? (
-          <p>Your email has been successfully verified.</p>
+          <p>
+            Your email has been successfully verified.
+            <p>
+              Back to sign in page{" "}
+              <Link href="/signin" className="text-blue-500 hover:underline">
+                Sign In
+              </Link>
+            </p>
+          </p>
         ) : (
           <p>
             Invalid or expired verification token. Please check your email for a

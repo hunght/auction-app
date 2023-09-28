@@ -1,18 +1,10 @@
-import crypto from "crypto";
 import * as jwt from "jsonwebtoken";
 import { env } from "~/env.mjs";
 
-export function generateUniqueToken(length = 32): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    crypto.randomBytes(length, (err, buffer) => {
-      if (err) {
-        reject(err);
-      } else {
-        const token = buffer.toString("hex");
-        resolve(token);
-      }
-    });
-  });
+export function generateUniqueToken(): string {
+  const rand = () => Math.random().toString(36);
+  const token = rand() + rand();
+  return token;
 }
 // Function to generate a JWT token
 export const generateToken = (userId: number): string => {
@@ -30,4 +22,22 @@ export const generateToken = (userId: number): string => {
   const token = jwt.sign(payload, env.JWT_SECRET, options);
 
   return token;
+};
+
+type UserToken = {
+  userId: number;
+};
+
+// Function to decode and verify a JWT token
+export const decodeAndVerifyJwtToken = (token?: string): UserToken => {
+  try {
+    if (!token) {
+      throw new Error("No token provided");
+    }
+    // Decode the JWT token
+    const decoded = jwt.verify(token, env.JWT_SECRET);
+    return decoded as UserToken;
+  } catch (err) {
+    throw new Error("Invalid token");
+  }
 };

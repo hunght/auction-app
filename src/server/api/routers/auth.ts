@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import * as bcrypt from "bcrypt";
 import { Resend } from "resend";
 import { EmailTemplate } from "~/components/email-template";
@@ -17,6 +21,22 @@ export const authRouter = createTRPCRouter({
         greeting: `Hello ${input.text}`,
       };
     }),
+  getProfile: protectedProcedure.query(async ({ ctx }) => {
+    if (!ctx.user) {
+      throw new Error("No user");
+    }
+    const user = await ctx.db.user.findUnique({
+      where: {
+        id: ctx.user.userId,
+      },
+    });
+    if (!user) {
+      throw new Error("No user");
+    }
+    return {
+      user,
+    };
+  }),
   signup: publicProcedure
     .input(
       z.object({
@@ -24,10 +44,11 @@ export const authRouter = createTRPCRouter({
         password: z.string().min(6),
       }),
     )
-    .query(async ({ ctx, input: { email, password } }) => {
+    .mutation(async ({ ctx, input: { email, password } }) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       // After user registration, send verification email with a unique token
-      const uniqueVerificationToken = await generateUniqueToken();
+      const uniqueVerificationToken = generateUniqueToken();
+
       const users = await ctx.db.user.create({
         data: {
           email,

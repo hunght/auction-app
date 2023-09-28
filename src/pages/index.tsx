@@ -4,7 +4,7 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 
 export default function Home() {
-  const hello = api.auth.hello.useQuery({ text: "from tRPC" });
+  const { data, isLoading } = api.auth.getProfile.useQuery();
 
   return (
     <>
@@ -42,9 +42,16 @@ export default function Home() {
               </div>
             </Link>
           </div>
-          <p className="text-2xl text-white">
-            {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-          </p>
+          {!isLoading && data && (
+            <p className="text-2xl text-white">{data.user.email}</p>
+          )}
+          {!isLoading && !data && (
+            <Link href="/signin" className="text-blue-500 hover:underline">
+              Sign In
+            </Link>
+          )}
+
+          {isLoading && <p className="text-2xl text-white">Loading...</p>}
         </div>
       </main>
     </>

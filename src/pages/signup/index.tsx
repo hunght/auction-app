@@ -1,16 +1,34 @@
 // pages/signup.tsx
 import Link from "next/link";
 import React, { useState } from "react";
+import { useToast } from "~/components/ui/use-toast";
+import { api } from "~/utils/api";
 
 const SignupPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { mutateAsync, isLoading } = api.auth.signup.useMutation();
+  const { toast } = useToast();
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add your signup logic here
-  };
 
+    mutateAsync({ email, password })
+      .then(() => {
+        toast({
+          title: "Signup success",
+          description: "Please check your email to verify your account",
+        });
+      })
+      .catch(() => {
+        // Handle errors
+        toast({
+          title: "Scheduled: Catch up",
+          description: "Friday, February 10, 2023 at 5:57 PM",
+          variant: "destructive",
+        });
+      });
+  };
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-96 rounded-md bg-white p-8 shadow-md">

@@ -1,21 +1,44 @@
 // pages/signin.tsx
 import Link from "next/link";
 import React, { useState } from "react";
+import { useToast } from "~/components/ui/use-toast";
 import { api } from "~/utils/api";
 
 const SigninPage: React.FC = () => {
+  const utils = api.useContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { mutateAsync, isLoading } = api.auth.signin.useMutation();
+  const { toast } = useToast();
   const handleSignin = (e: React.FormEvent) => {
     e.preventDefault();
     // Add your sign-in logic here
     mutateAsync({ email, password })
-      .then(() => {
-        // Redirect to the dashboard
+      .then(({ token }) => {
+        //store token in local storage
+        if (token) {
+          localStorage.setItem("token", token);
+          toast({
+            title: "Login success",
+            description: "Go to dashboard",
+          });
+          utils.auth.getProfile.invalidate().catch((error) => {
+            // Handle errors
+            toast({
+              title: "Error",
+              description: "Something went wrong. Please try again later.",
+              variant: "destructive",
+            });
+          });
+        }
       })
-      .catch(() => {
+      .catch((error) => {
         // Handle errors
+        toast({
+          title: "Error",
+          description: "Something went wrong. Please try again later.",
+          variant: "destructive",
+        });
       });
   };
 
