@@ -12,7 +12,25 @@ export const env = createEnv({
       .url()
       .refine(
         (str) => !str.includes("YOUR_MYSQL_URL_HERE"),
-        "You forgot to change the default URL"
+        "You forgot to change the default URL",
+      ),
+    RESEND_API_KEY: z
+      .string()
+      .refine(
+        (str) => !str.includes("RESEND_API_KEY"),
+        "You forgot to change the default URL",
+      ),
+    JWT_SECRET: z
+      .string()
+      .refine(
+        (str) => !str.includes("JWT_SECRET"),
+        "You forgot to change the default URL",
+      ),
+    BASE_URL: z
+      .string()
+      .refine(
+        (str) => !str.includes("BASE_URL"),
+        "You forgot to change the default URL",
       ),
     NODE_ENV: z
       .enum(["development", "test", "production"])
@@ -34,6 +52,8 @@ export const env = createEnv({
    */
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    JWT_SECRET: process.env.JWT_SECRET,
     NODE_ENV: process.env.NODE_ENV,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
