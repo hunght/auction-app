@@ -20,7 +20,7 @@ export default createNextApiHandler({
           void Handlers.trpcOnError(
             { error, req },
             {
-              projectID: "<YOUR_PROJECT_ID>",
+              projectID: env.HIGHT_LIGHT_IO_KEY,
               serviceName: "my-trpc-app",
               serviceVersion: "git-sha",
             },
