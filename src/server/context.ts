@@ -14,7 +14,7 @@ export function createContext({ req, res }: CreateNextContextOptions) {
     }
     return { user: null, db };
   } catch (error) {
-    console.error(error);
+    console.error("[createContext]", error);
     return { user: null, db };
   }
 }
