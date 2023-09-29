@@ -1,6 +1,6 @@
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as React from "react";
 import {
@@ -13,21 +13,14 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { cn } from "~/utils";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import DateTimePicker from "~/components/date-time-picker";
 import { useRouter } from "next/navigation";
 import { api } from "~/utils/api";
@@ -35,7 +28,7 @@ import { api } from "~/utils/api";
 import type * as z from "zod";
 import { useForm } from "react-hook-form";
 import { createItemSchema } from "~/zod-schema/item";
-import { toast, useToast } from "~/components/ui/use-toast";
+import { useToast } from "~/components/ui/use-toast";
 
 export default function CreateItem() {
   const router = useRouter();
@@ -51,7 +44,6 @@ export default function CreateItem() {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof createItemSchema>) {
-    console.log("values", values);
     void mutateAsync(values)
       .catch((err) => {
         console.log("err", err);
@@ -73,10 +65,7 @@ export default function CreateItem() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form
-              onSubmit={void form.handleSubmit(onSubmit)}
-              className="space-y-8"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
                 name="name"
@@ -98,10 +87,10 @@ export default function CreateItem() {
                   <FormItem>
                     <FormLabel>Starting Price</FormLabel>
                     <FormControl>
-                      <Input placeholder="0" {...field} />
+                      <Input type="number" placeholder="0" {...field} />
                     </FormControl>
                     <FormDescription>
-                      This is your item startingPrice.
+                      This is your item starting Price.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -133,15 +122,6 @@ export default function CreateItem() {
                         </FormControl>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
-                        {/* <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
-                          initialFocus
-                        /> */}
                         <DateTimePicker
                           date={field.value}
                           onChange={field.onChange}
