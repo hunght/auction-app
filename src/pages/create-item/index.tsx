@@ -36,7 +36,7 @@ import type * as z from "zod";
 import { useForm } from "react-hook-form";
 import { createItemSchema } from "~/zod-schema/item";
 
-export default function CreateItemDialog() {
+export default function CreateItem() {
   // 1. Define your form.
   const form = useForm<z.infer<typeof createItemSchema>>({
     resolver: zodResolver(createItemSchema),
