@@ -4,8 +4,11 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import { Toaster } from "~/components/ui/toaster";
 import { env } from "~/env.mjs";
+import { useAuthRedirect } from "~/hooks/useAuthRedirect";
+import Header from "~/components/header";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
+  const { user, isFetching, isError } = useAuthRedirect();
   return (
     <>
       {/* <HighlightInit
@@ -17,6 +20,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           recordHeadersAndBody: true,
         }}
       /> */}
+
+      <Header username={!isError ? user?.email : undefined} />
+
       <Component {...pageProps} />
       <Toaster />
     </>

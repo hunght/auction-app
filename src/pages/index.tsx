@@ -25,7 +25,6 @@ const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <Header username={!isError ? user?.email : undefined} />
       <table className="w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-100">

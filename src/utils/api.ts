@@ -10,6 +10,7 @@ import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
 
 import { type AppRouter } from "~/server/api/root";
+import { getToken } from "~/server/ultil/localStorage";
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
@@ -44,12 +45,12 @@ export const api = createTRPCNext<AppRouter>({
 
           /** headers are called on every request */
           headers: () => {
-            const token = `Bearer ${localStorage.getItem("token")}`;
+            const token = getToken();
             if (!token) {
               return {};
             }
             return {
-              Authorization: token,
+              Authorization: `Bearer ${token}`,
             };
           },
         }),

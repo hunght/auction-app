@@ -11,6 +11,7 @@ import {
 } from "~/components/ui/menubar";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
+import { removeToken } from "~/server/ultil/localStorage";
 
 const Header: React.FunctionComponent<{ username?: string }> = ({
   username,
@@ -18,9 +19,11 @@ const Header: React.FunctionComponent<{ username?: string }> = ({
   const router = useRouter();
   const utils = api.useContext();
   return (
-    <header className="mb-4 flex items-center justify-between">
+    <header className="mb-4 flex items-center justify-between px-10">
       <div>
-        <h1 className="text-2xl font-bold">Auction System</h1>
+        <Link href={"/"}>
+          <h1 className="text-2xl font-bold">Auction System</h1>
+        </Link>
       </div>
       {username ? (
         <div className="flex items-center space-x-4">
@@ -34,22 +37,22 @@ const Header: React.FunctionComponent<{ username?: string }> = ({
               <MenubarContent>
                 <MenubarItem
                   onClick={() => {
-                    console.log("first");
+                    void router.push("/create-item");
                   }}
                 >
                   Create New Item
                 </MenubarItem>
+
                 <MenubarSeparator />
                 <MenubarItem>Deposit</MenubarItem>
                 <MenubarSeparator />
                 <MenubarItem
                   onClick={() => {
-                    localStorage.removeItem("token");
-
+                    removeToken();
                     void utils.auth.getProfile.invalidate().finally(() => {
                       console.log("username", username);
-                      void router.replace("/");
                     });
+                    void router.replace("/");
                   }}
                 >
                   Logout

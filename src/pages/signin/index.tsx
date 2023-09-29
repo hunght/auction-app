@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useToast } from "~/components/ui/use-toast";
+import { setToken } from "~/server/ultil/localStorage";
 import { api } from "~/utils/api";
 // import { H } from "@highlight-run/next/client";
 const SigninPage: React.FC = () => {
@@ -20,7 +21,7 @@ const SigninPage: React.FC = () => {
         //store token in local storage
         if (token) {
           // H.identify(email);
-          localStorage.setItem("token", token);
+          setToken(token);
           toast({
             title: "Login success",
             description: "Go to dashboard",
