@@ -29,7 +29,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import DateTimePicker from "~/components/date-time-picker";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { api } from "~/utils/api";
 
 import type * as z from "zod";

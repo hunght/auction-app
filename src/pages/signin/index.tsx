@@ -1,6 +1,6 @@
 // pages/signin.tsx
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useToast } from "~/components/ui/use-toast";
 import { setToken } from "~/server/ultil/localStorage";

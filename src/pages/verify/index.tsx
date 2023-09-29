@@ -1,12 +1,11 @@
-// pages/verify.tsx
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter, useParams } from "next/navigation";
 import { useEffect } from "react";
 import { api } from "~/utils/api";
 
 const VerifyTokenPage: React.FC = () => {
   const router = useRouter();
-  const { token } = router.query;
+  const { token } = useParams();
 
   const { mutate, isLoading, data } = api.auth.verify.useMutation();
 

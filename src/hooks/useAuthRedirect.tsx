@@ -1,6 +1,6 @@
 // hooks/useAuthRedirect.tsx
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { api } from "~/utils/api";
 

@@ -9,7 +9,7 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from "~/components/ui/menubar";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { api } from "~/utils/api";
 import { removeToken } from "~/server/ultil/localStorage";
 
