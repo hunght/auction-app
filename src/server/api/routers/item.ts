@@ -7,13 +7,26 @@ export const itemRouter = createTRPCRouter({
   create: protectedProcedure
     .input(createItemSchema)
     .mutation(async ({ input, ctx }) => {
-      console.log("ctx.user", ctx.user);
       const item = await ctx.db.item.create({
         data: {
           name: input.name,
           startingPrice: input.startingPrice,
           createdById: ctx.user.userId,
           auctionEndTime: input.timeWindow,
+        },
+      });
+      return {
+        item,
+      };
+    }),
+  bidItem: protectedProcedure
+    .input(z.object({ id: z.number(), price: z.number() }))
+    .mutation(async ({ input, ctx }) => {
+      const item = await ctx.db.bid.create({
+        data: {
+          amount: input.price,
+          itemId: input.id,
+          userId: ctx.user.userId,
         },
       });
       return {

@@ -135,7 +135,15 @@ export default function CreateItem() {
                   </FormItem>
                 )}
               />
-
+              <Button
+                variant={"outline"}
+                className="mr-4 max-w-sm"
+                onClick={() => {
+                  router.back();
+                }}
+              >
+                Cancel
+              </Button>
               <Button type="submit">Create Item</Button>
             </form>
           </Form>

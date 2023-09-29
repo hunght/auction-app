@@ -1,6 +1,7 @@
 // pages/index.tsx
 
 import React from "react";
+import BidItemDialog from "~/components/bid-item-dialog";
 import Header from "~/components/header";
 import Loading from "~/components/loading";
 
@@ -32,9 +33,7 @@ const Home: React.FC = () => {
               <td className="px-4 py-2">${item.startingPrice}</td>
               <td className="px-4 py-2">{item.auctionEndTime.toISOString()}</td>
               <td className="px-4 py-2">
-                <button className="rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600">
-                  Bid
-                </button>
+                <BidItemDialog item={item} />
               </td>
             </tr>
           ))}
