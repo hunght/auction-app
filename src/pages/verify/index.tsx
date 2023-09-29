@@ -1,12 +1,11 @@
 import Link from "next/link";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { api } from "~/utils/api";
 
 const VerifyTokenPage: React.FC = () => {
-  const router = useRouter();
-  const { token } = useParams();
-
+  const params = useParams();
+  const token = params?.token;
   const { mutate, isLoading, data } = api.auth.verify.useMutation();
 
   useEffect(() => {

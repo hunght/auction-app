@@ -4,9 +4,8 @@ import { Calendar } from "../ui/calendar";
 const DateTimePicker: React.FunctionComponent<{
   date?: Date;
   onChange: (date?: Date) => void;
-  time: string;
-  onTimeChange: (time: string) => void;
-}> = ({ date, onChange, onTimeChange, time = "00:00" }) => {
+}> = ({ date, onChange }) => {
+  const [time, onTimeChange] = React.useState<string>("00:00");
   const handleTimeChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const time = e.target.value;
     if (!date) {

@@ -5,7 +5,8 @@
   "scripts": {
     "build": "next build",
     "db:push": "prisma db push",
-    "dev": "next dev",
+    "dev": "kill -9 $(lsof -t -i:3000);next dev",
+    "prisma:studio": "kill -9 $(lsof -t -i:5556);prisma studio --port 5556",
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start"

@@ -35,8 +35,12 @@ import { api } from "~/utils/api";
 import type * as z from "zod";
 import { useForm } from "react-hook-form";
 import { createItemSchema } from "~/zod-schema/item";
+import { toast, useToast } from "~/components/ui/use-toast";
 
 export default function CreateItem() {
+  const router = useRouter();
+  const { toast } = useToast();
+  const { mutateAsync, isLoading, data } = api.item.create.useMutation();
   // 1. Define your form.
   const form = useForm<z.infer<typeof createItemSchema>>({
     resolver: zodResolver(createItemSchema),
@@ -47,15 +51,20 @@ export default function CreateItem() {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof createItemSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    console.log("values", values);
+    void mutateAsync(values)
+      .catch((err) => {
+        console.log("err", err);
+      })
+      .then(() => {
+        void router.push("/");
+        toast({
+          title: "Item successfully created",
+          description: "You can see your item in the home page.",
+        });
+      });
   }
 
-  const [date, onChange] = React.useState<Date>();
-  const [time, onTimeChange] = React.useState<string>("00:00");
-  const router = useRouter();
-  const { mutate, isLoading, data } = api.item.create.useMutation();
   return (
     <div className="justify-center px-10 py-4">
       <Card className="m-auto max-w-3xl">
@@ -75,7 +84,7 @@ export default function CreateItem() {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="name" {...field} />
+                      <Input placeholder="Item name" {...field} />
                     </FormControl>
                     <FormDescription>This is your item name.</FormDescription>
                     <FormMessage />
@@ -89,7 +98,7 @@ export default function CreateItem() {
                   <FormItem>
                     <FormLabel>Starting Price</FormLabel>
                     <FormControl>
-                      <Input placeholder="startingPrice" {...field} />
+                      <Input placeholder="0" {...field} />
                     </FormControl>
                     <FormDescription>
                       This is your item startingPrice.
@@ -134,10 +143,8 @@ export default function CreateItem() {
                           initialFocus
                         /> */}
                         <DateTimePicker
-                          time={time}
                           date={field.value}
                           onChange={field.onChange}
-                          onTimeChange={onTimeChange}
                         />
                       </PopoverContent>
                     </Popover>
@@ -148,15 +155,7 @@ export default function CreateItem() {
                   </FormItem>
                 )}
               />
-              <Button
-                variant={"outline"}
-                className="mr-4 max-w-sm"
-                onClick={() => {
-                  router.back();
-                }}
-              >
-                Cancel
-              </Button>
+
               <Button type="submit">Create Item</Button>
             </form>
           </Form>
