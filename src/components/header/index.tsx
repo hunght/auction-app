@@ -13,9 +13,10 @@ import { useRouter } from "next/navigation";
 import { api } from "~/utils/api";
 import { removeToken } from "~/server/ultil/localStorage";
 
-const Header: React.FunctionComponent<{ username?: string }> = ({
-  username,
-}) => {
+const Header: React.FunctionComponent<{
+  username?: string;
+  balance?: number;
+}> = ({ username, balance }) => {
   const router = useRouter();
   const utils = api.useContext();
   return (
@@ -27,6 +28,9 @@ const Header: React.FunctionComponent<{ username?: string }> = ({
       </div>
       {username ? (
         <div className="flex items-center space-x-4">
+          <span className="text-gray-400">Balance:</span>
+          <span className="text-gray-600">{balance}</span>
+
           <span className="text-gray-600">{username}</span>
 
           <Menubar>

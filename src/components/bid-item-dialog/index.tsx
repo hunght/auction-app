@@ -33,13 +33,13 @@ const BidItemDialog: React.FunctionComponent<{ item: Item }> = ({ item }) => {
   const { toast } = useToast();
   const { mutateAsync, isLoading, data } = api.item.bidItem.useMutation();
   const formSchema = z.object({
-    bidPrice: z.coerce.number().min(item.startingPrice).max(1000000),
+    bidPrice: z.coerce.number().gt(item.currentPrice).max(1000000),
   });
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      bidPrice: item.startingPrice,
+      bidPrice: item.currentPrice,
     },
   });
 

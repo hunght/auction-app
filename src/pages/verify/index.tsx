@@ -1,19 +1,25 @@
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { api } from "~/utils/api";
 
 const VerifyTokenPage: React.FC = () => {
-  const params = useParams();
-  const token = params?.token;
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { mutate, isLoading, data } = api.auth.verify.useMutation();
-
   useEffect(() => {
-    if (typeof token === "string") {
+    const url = `${pathname}?${searchParams.toString()}`;
+    console.log(url);
+    // You can now use the current URL
+    // ...
+  }, [pathname, searchParams]);
+  const token = searchParams.get("token");
+  useEffect(() => {
+    if (token) {
       // Validate the token by sending it to your server
       mutate({ token });
     }
-  }, [token]);
+  }, [mutate, token]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">

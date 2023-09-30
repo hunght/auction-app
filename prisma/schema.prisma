@@ -18,6 +18,7 @@ model User {
   // Other user-related fields
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+  balance      Float         @default(100000)
   // User verification details
   verification Verification?
   Item         Item[]
@@ -35,46 +36,71 @@ model Verification {
 }
 
 // Define the Item model to store item details
+enum ItemStatus {
+  DRAFT
+  PUBLISHED
+  COMPLETED
+}
+
 model Item {
-  id             Int      @id @default(autoincrement())
+  id             Int        @id @default(autoincrement())
   name           String
   startingPrice  Float
+  currentPrice   Float
   auctionEndTime DateTime
-  status         String   @default("draft") // "draft", "published", "completed", etc.
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  createdBy      User     @relation(fields: [createdById], references: [id])
+  status         ItemStatus @default(PUBLISHED) // "draft", "published", "completed", etc.
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  createdBy      User       @relation(fields: [createdById], references: [id])
   createdById    Int
   bids           Bid[] // Relationship to bids on this item
 
+  @@index([status])
   @@index([createdById])
+}
+
+enum BidStatus {
+  ACTIVE
+  DELETED
 }
 
 // Define the Bid model to store bids
 model Bid {
-  id        Int      @id @default(autoincrement())
-  amount    Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  item      Item     @relation(fields: [itemId], references: [id])
-  itemId    Int
+  id          Int          @id @default(autoincrement())
+  amount      Float
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  user        User         @relation(fields: [userId], references: [id])
+  userId      Int
+  item        Item         @relation(fields: [itemId], references: [id])
+  itemId      Int
+  Transaction Transaction?
+  status      BidStatus    @default(ACTIVE)
 
   @@index([itemId])
   @@index([userId])
 }
 
+enum TransactionStatus {
+  DRAFT
+  RELESASED
+}
+
 // Define the Transaction model to store transaction history
 model Transaction {
-  id          Int      @id @default(autoincrement())
-  amount      Float
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id])
-  userId      Int
-  // Add other transaction-related fields as needed
+  id              Int               @id @default(autoincrement())
+  amount          Float
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  user            User              @relation(fields: [userId], references: [id])
+  userId          Int
+  bid             Bid               @relation(fields: [bidId], references: [id])
+  bidId           Int               @unique
+  status          TransactionStatus @default(DRAFT)
+  currentBalance  Float?
+  previousBalance Float?
 
+  @@index([status])
   @@index([userId])
+  @@index([bidId])
 }

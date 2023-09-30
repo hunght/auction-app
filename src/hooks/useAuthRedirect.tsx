@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { removeToken } from "~/server/ultil/localStorage";
 import { api } from "~/utils/api";
 
 export function useAuthRedirect() {
@@ -10,10 +11,10 @@ export function useAuthRedirect() {
     api.auth.getProfile.useQuery();
 
   useEffect(() => {
-    // if (!isLoading && isError) {
-    //   removeToken()
-    //   void router.push("/signin"); // Redirect to the login page if not authenticated
-    // }
+    if (!isLoading && isError) {
+      removeToken();
+      // void router.push("/signin"); // Redirect to the login page if not authenticated
+    }
   }, [isLoading, isError, router]);
   return { isLoading, user: data?.user, isError, isFetching };
 }

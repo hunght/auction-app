@@ -19,28 +19,34 @@ const SigninPage: React.FC = () => {
     mutateAsync({ email, password })
       .then(({ token }) => {
         //store token in local storage
-        if (token) {
-          // H.identify(email);
-          setToken(token);
+        if (!token) {
           toast({
-            title: "Login success",
-            description: "Go to dashboard",
+            title: "Error",
+            description: "Something went wrong. Please try again later.",
+            variant: "destructive",
           });
-          utils.auth.getProfile
-            .invalidate()
-            .then(() => {
-              void router.push("/");
-            })
-            .catch((error) => {
-              console.log("error", error);
-              // Handle errors
-              toast({
-                title: "Error",
-                description: "Something went wrong. Please try again later.",
-                variant: "destructive",
-              });
-            });
+          return;
         }
+        // H.identify(email);
+        setToken(token);
+        toast({
+          title: "Login success",
+          description: "Go to dashboard",
+        });
+        utils.auth.getProfile
+          .invalidate()
+          .then(() => {
+            void router.push("/");
+          })
+          .catch((error) => {
+            console.log("error", error);
+            // Handle errors
+            toast({
+              title: "Error",
+              description: "Something went wrong. Please try again later.",
+              variant: "destructive",
+            });
+          });
       })
       .catch((error) => {
         // Handle errors

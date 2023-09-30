@@ -30,7 +30,7 @@ const Home: React.FC = () => {
           {items?.map((item) => (
             <tr key={item.id}>
               <td className="px-4 py-2">{item.name}</td>
-              <td className="px-4 py-2">${item.startingPrice}</td>
+              <td className="px-4 py-2">${item.currentPrice}</td>
               <td className="px-4 py-2">{item.auctionEndTime.toISOString()}</td>
               <td className="px-4 py-2">
                 <BidItemDialog item={item} />

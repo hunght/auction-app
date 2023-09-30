@@ -21,7 +21,10 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         }}
       /> */}
 
-      <Header username={!isError ? user?.email : undefined} />
+      <Header
+        username={!isError ? user?.email : undefined}
+        balance={user?.balance}
+      />
 
       <Component {...pageProps} />
       <Toaster />
