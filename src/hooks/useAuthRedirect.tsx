@@ -13,6 +13,7 @@ export function useAuthRedirect() {
   useEffect(() => {
     if (!isLoading && isError) {
       removeToken();
+
       // void router.push("/signin"); // Redirect to the login page if not authenticated
     }
   }, [isLoading, isError, router]);
