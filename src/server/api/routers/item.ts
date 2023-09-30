@@ -119,12 +119,23 @@ export const itemRouter = createTRPCRouter({
       };
     }),
   getAll: protectedProcedure
-    .input(z.object({ limit: z.number(), page: z.number() }))
+    .input(
+      z.object({
+        limit: z.number(),
+        page: z.number(),
+        filter: z.object({
+          status: z.enum(["DRAFT", "PUBLISHED", "COMPLETED"]),
+        }),
+      }),
+    )
     .query(async ({ ctx, input }) => {
       const items = await ctx.db.item.findMany({
         take: input.limit,
         skip: input.page * input.limit,
-        where: { auctionEndTime: { gt: new Date() } },
+        where: {
+          auctionEndTime: { gt: new Date() },
+          status: input.filter.status,
+        },
         orderBy: { createdAt: "desc" },
       });
       return {
