@@ -61,7 +61,7 @@ const BidItemDialog: React.FunctionComponent<{ item: Item }> = ({ item }) => {
     <Form {...form}>
       <Dialog>
         <DialogTrigger asChild>
-          <Button>Bid</Button>
+          <Button variant="default">Bid</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogTitle>{item.name}</DialogTitle>

@@ -4,26 +4,23 @@ import React from "react";
 import BidItemDialog from "~/components/bid-item-dialog";
 import Header from "~/components/header";
 import Loading from "~/components/loading";
-
-import { useAuthRedirect } from "~/hooks/useAuthRedirect";
 import { api } from "~/utils/api";
 
 const Home: React.FC = () => {
-  const { user, isFetching, isError } = useAuthRedirect();
-  console.log("isError", isError);
-  console.log("isFetching", isFetching);
-
-  const { data, isLoading } = api.item.getAll.useQuery({ limit: 10, page: 0 });
+  const { data, isLoading, isFetching } = api.item.getAll.useQuery({
+    limit: 10,
+    page: 0,
+  });
   const items = data?.items;
   return (
     <div className="container mx-auto p-4">
       <table className="w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
-            <th className="px-4 py-2">Name</th>
-            <th className="px-4 py-2">Current Price</th>
-            <th className="px-4 py-2">Duration</th>
-            <th className="px-4 py-2">Bid</th>
+            <th className="px-4 py-2 text-left">Name</th>
+            <th className="px-4 py-2 text-left">Current Price</th>
+            <th className="px-4 py-2 text-left">Duration</th>
+            <th className="px-4 py-2 text-left">Bid</th>
           </tr>
         </thead>
         <tbody>
