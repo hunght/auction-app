@@ -12,18 +12,21 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  email        String        @unique
-  password     String
+  id                  Int           @id @default(autoincrement())
+  email               String        @unique
+  password            String
   // Other user-related fields
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  balance      Float         @default(100000)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  balance             Float         @default(100000)
   // User verification details
-  verification Verification?
-  Item         Item[]
-  Bid          Bid[]
-  Transaction  Transaction[]
+  verification        Verification?
+  myItems             Item[]        @relation("createdByUser")
+  bids                Bid[]
+  outcomeTransactions Transaction[] @relation("sender")
+  winItems            Item[]        @relation("winnerItems")
+
+  incomeTransactions Transaction[] @relation("receiver")
 }
 
 model Verification {
@@ -51,12 +54,15 @@ model Item {
   status         ItemStatus @default(PUBLISHED) // "draft", "published", "completed", etc.
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
-  createdBy      User       @relation(fields: [createdById], references: [id])
+  createdBy      User       @relation("createdByUser", fields: [createdById], references: [id])
   createdById    Int
-  bids           Bid[] // Relationship to bids on this item
+  bids           Bid[]      @relation("itemBids")
+  winner         User?      @relation("winnerItems", fields: [winnerId], references: [id])
+  winnerId       Int?
 
   @@index([status])
   @@index([createdById])
+  @@index([winnerId])
 }
 
 enum BidStatus {
@@ -72,9 +78,9 @@ model Bid {
   updatedAt   DateTime     @updatedAt
   user        User         @relation(fields: [userId], references: [id])
   userId      Int
-  item        Item         @relation(fields: [itemId], references: [id])
+  item        Item         @relation("itemBids", fields: [itemId], references: [id])
   itemId      Int
-  Transaction Transaction?
+  transaction Transaction?
   status      BidStatus    @default(ACTIVE)
 
   @@index([itemId])
@@ -88,19 +94,20 @@ enum TransactionStatus {
 
 // Define the Transaction model to store transaction history
 model Transaction {
-  id              Int               @id @default(autoincrement())
-  amount          Float
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  user            User              @relation(fields: [userId], references: [id])
-  userId          Int
-  bid             Bid               @relation(fields: [bidId], references: [id])
-  bidId           Int               @unique
-  status          TransactionStatus @default(DRAFT)
-  currentBalance  Float?
-  previousBalance Float?
+  id         Int               @id @default(autoincrement())
+  amount     Float
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  sender     User              @relation("sender", fields: [senderId], references: [id])
+  senderId   Int
+  bid        Bid               @relation(fields: [bidId], references: [id])
+  bidId      Int               @unique
+  status     TransactionStatus @default(DRAFT)
+  receiver   User              @relation("receiver", fields: [receiverId], references: [id])
+  receiverId Int
 
   @@index([status])
-  @@index([userId])
+  @@index([senderId])
   @@index([bidId])
+  @@index([receiverId])
 }

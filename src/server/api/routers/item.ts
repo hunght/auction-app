@@ -142,4 +142,25 @@ export const itemRouter = createTRPCRouter({
         items,
       };
     }),
+  getCompletedItems: protectedProcedure
+    .input(
+      z.object({
+        limit: z.number(),
+        page: z.number(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const items = await ctx.db.item.findMany({
+        take: input.limit,
+        skip: input.page * input.limit,
+        where: {
+          status: "COMPLETED",
+        },
+        include: { winner: true },
+        orderBy: { createdAt: "desc" },
+      });
+      return {
+        items,
+      };
+    }),
 });

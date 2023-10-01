@@ -8,6 +8,7 @@ import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import OnGoingTable from "~/components/table/ongoing";
+import CompletedTable from "~/components/table/completed";
 
 const Home: React.FC = () => {
   return (
@@ -21,7 +22,7 @@ const Home: React.FC = () => {
           <OnGoingTable status="PUBLISHED" />
         </TabsContent>
         <TabsContent value="completed">
-          <OnGoingTable status="COMPLETED" />
+          <CompletedTable status="COMPLETED" />
         </TabsContent>
       </Tabs>
     </div>
