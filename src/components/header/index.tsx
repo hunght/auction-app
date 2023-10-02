@@ -59,6 +59,7 @@ const Header: React.FunctionComponent<{
                 <MenubarItem
                   onClick={() => {
                     removeToken();
+                    void utils.item.getAll.invalidate();
                     void utils.auth.getProfile.invalidate().finally(() => {
                       console.log("username", username);
                     });

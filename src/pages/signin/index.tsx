@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import Loading from "~/components/loading";
 import { useToast } from "~/components/ui/use-toast";
 import { setToken } from "~/server/ultil/localStorage";
 import { api } from "~/utils/api";
@@ -33,20 +34,15 @@ const SigninPage: React.FC = () => {
           title: "Login success",
           description: "Go to dashboard",
         });
-        utils.auth.getProfile
-          .invalidate()
-          .then(() => {
-            void router.push("/");
-          })
-          .catch((error) => {
-            console.log("error", error);
-            // Handle errors
-            toast({
-              title: "Error",
-              description: "Something went wrong. Please try again later.",
-              variant: "destructive",
-            });
+        utils.auth.getProfile.invalidate().catch((error) => {
+          // Handle errors
+          toast({
+            title: "Error",
+            description: "Something went wrong. Please try again later.",
+            variant: "destructive",
           });
+        });
+        void router.push("/");
       })
       .catch((error) => {
         // Handle errors
@@ -108,6 +104,7 @@ const SigninPage: React.FC = () => {
           </Link>
         </p>
       </div>
+      <Loading isLoading={isLoading} />
     </div>
   );
 };

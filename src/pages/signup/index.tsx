@@ -1,6 +1,8 @@
 // pages/signup.tsx
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import Loading from "~/components/loading";
 import { useToast } from "~/components/ui/use-toast";
 import { api } from "~/utils/api";
 
@@ -10,6 +12,8 @@ const SignupPage: React.FC = () => {
 
   const { mutateAsync, isLoading } = api.auth.signup.useMutation();
   const { toast } = useToast();
+  const router = useRouter();
+
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -28,6 +32,7 @@ const SignupPage: React.FC = () => {
           variant: "destructive",
         });
       });
+    void router.push("/signin");
   };
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -79,6 +84,7 @@ const SignupPage: React.FC = () => {
           </Link>
         </p>
       </div>
+      <Loading isLoading={isLoading} />
     </div>
   );
 };
