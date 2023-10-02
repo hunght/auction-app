@@ -1,9 +1,7 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
@@ -50,14 +48,22 @@ const BidItemDialog: React.FunctionComponent<{ item: Item }> = ({ item }) => {
     void mutateAsync({ id: item.id, price: values.bidPrice })
       .catch((err) => {
         console.log("err", err);
-      })
-      .then(() => {
-        void router.push("/");
-        void utils.auth.getProfile.invalidate();
         toast({
-          title: "Item successfully created",
-          description: "You can see your item in the home page.",
+          title: "Bid Item Error",
+          description: `${err}`,
+          variant: "destructive",
         });
+      })
+      .then((data) => {
+        if (data) {
+          toast({
+            title: "Bid Item successfully",
+            description: "You can see your new bid price in the home page.",
+          });
+          void router.push("/");
+          void utils.auth.getProfile.invalidate();
+          void utils.item.getAll.invalidate();
+        }
       });
   }
   return (
@@ -95,7 +101,9 @@ const BidItemDialog: React.FunctionComponent<{ item: Item }> = ({ item }) => {
               <DialogClose asChild>
                 <Button variant={"outline"}>Cancel</Button>
               </DialogClose>
-              <Button type="submit">Submit</Button>
+              <DialogClose asChild>
+                <Button type="submit">Submit</Button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </DialogContent>

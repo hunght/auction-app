@@ -11,7 +11,6 @@ const getDuration = (startDate: Date) => {
     end: now,
     start: startDate,
   });
-  console.log("duration", startDate.getTime());
   return `${duration.hours}h ${duration.minutes}m ${duration.seconds}s`;
 };
 const getCountdown = (endDate: Date) => {
@@ -20,7 +19,6 @@ const getCountdown = (endDate: Date) => {
     start: now,
     end: endDate,
   });
-  console.log("duration", endDate.getTime());
   return `${duration.hours}h ${duration.minutes}m ${duration.seconds}s`;
 };
 

@@ -14,9 +14,28 @@ export const itemRouter = createTRPCRouter({
           createdById: ctx.user.userId,
           auctionEndTime: input.timeWindow,
           currentPrice: input.startingPrice,
-          status: "PUBLISHED",
+          status: input.status,
         },
       });
+      return {
+        item,
+      };
+    }),
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        status: z.enum(["DRAFT", "PUBLISHED", "COMPLETED"]),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const item = await ctx.db.item.update({
+        data: {
+          status: input.status,
+        },
+        where: { id: input.id },
+      });
+
       return {
         item,
       };
@@ -27,6 +46,20 @@ export const itemRouter = createTRPCRouter({
       // Make transaction here to update bid and then update item
       const result = await ctx.db.$transaction(
         async (tx) => {
+          //get latest bid of the sender
+          const lastestBid = await tx.bid.findMany({
+            where: { itemId: input.id, userId: ctx.user.userId },
+            orderBy: { createdAt: "desc" },
+            take: 1,
+          });
+
+          // check if the latest bid created less than 20 seconds
+          if (
+            lastestBid?.[0] &&
+            lastestBid[0].createdAt.getTime() + 20000 > new Date().getTime()
+          ) {
+            throw new Error("Bid too fast please wait 20 seconds");
+          }
           const item = await tx.item.findUnique({
             where: {
               id: input.id,
@@ -157,6 +190,26 @@ export const itemRouter = createTRPCRouter({
           status: "COMPLETED",
         },
         include: { winner: true },
+        orderBy: { createdAt: "desc" },
+      });
+      return {
+        items,
+      };
+    }),
+  getMyItems: protectedProcedure
+    .input(
+      z.object({
+        limit: z.number(),
+        page: z.number(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const items = await ctx.db.item.findMany({
+        take: input.limit,
+        skip: input.page * input.limit,
+        where: {
+          createdById: ctx.user.userId,
+        },
         orderBy: { createdAt: "desc" },
       });
       return {

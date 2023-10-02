@@ -1,28 +1,40 @@
-# Create T3 App
+Outline a high-level approach for building the online auction system and provide insights into the considerations and trade-offs at each step. Please note that this is a conceptual overview, and in practice, you would need to dive deeper into implementation details.
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+- Problem Approach and Trade-offs:
 
-## What's next? How do I make an app with this?
+-Item Management:
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Draft State: Allow users to create items in a draft state. Trade-off: Items in draft state won't be visible to other users until published.
+Scheduling Auctions: Use a background job or scheduler to transition items from draft to published based on auction start time. Trade-off: Additional complexity and resource usage.
+Authentication:
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+Roll Your Own Authentication: Implementing your authentication flow provides flexibility but may require more development effort compared to using prebuilt solutions like NextAuth.js. Trade-off: Security and maintenance overhead.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- Auction Logic:
 
-## Learn More
+Real-time Bidding: Use WebSocket for real-time updates. Trade-off: Increased complexity and potential scaling challenges compared to polling.
+Bid Validation: Ensure bids meet criteria (higher than current highest bid and starting price) to maintain fairness in the auction.
+Invoice Model:
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Modeling Transactions: Introducing an Invoice model provides a structured way to handle transactions and associated data. Trade-off: Increased complexity compared to a simpler transaction model.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+2. Project Documentation:
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+README.md: Create a detailed README.md that includes setup instructions, how to run tests, project architecture overview, and explanations of important design decisions and trade-offs.
 
-## How do I deploy this?
+3. Communication:
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+Maintain clear and consistent communication throughout the project. Document decisions, progress, and any challenges faced during development. Prepare for follow-up interviews to discuss the assignment in-depth. 4. Unit Tests and Integration Tests:
+
+Write unit tests to test individual components and functions in isolation.
+Write integration tests to test the interactions between different parts of your application, including the database and external services. 5. Implement Frontend:
+
+Use a frontend framework like Next.js to build the user interface.
+Implement user registration, login, and account management components.
+Create UI components for listing auction items, bidding, and displaying auction details.
+Implement real-time updates using WebSocket or a similar technology.
+Ensure a responsive and user-friendly design. 6. Use ORM (Prisma):
+
+Define your database schema using Prisma.
+Use Prisma Client to interact with the database, including creating, reading, updating, and deleting records.
+Implement database queries and mutations in a structured manner to ensure data consistency and security.

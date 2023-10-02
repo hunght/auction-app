@@ -30,6 +30,7 @@ import { useForm } from "react-hook-form";
 import { createItemSchema } from "~/zod-schema/item";
 import { useToast } from "~/components/ui/use-toast";
 import Loading from "~/components/loading";
+import { Switch } from "~/components/ui/switch";
 
 export default function CreateItem() {
   const router = useRouter();
@@ -135,6 +136,31 @@ export default function CreateItem() {
                       Time Window is used to set end of the auction item.
                     </FormDescription>
                     <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                      <FormLabel className="text-base">
+                        Publish Item status
+                      </FormLabel>
+                      <FormDescription>
+                        Checked if you want to publish your item.
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value === "PUBLISHED"}
+                        onCheckedChange={(value) => {
+                          field.onChange(value ? "PUBLISHED" : "DRAFT");
+                        }}
+                        aria-readonly
+                      />
+                    </FormControl>
                   </FormItem>
                 )}
               />
