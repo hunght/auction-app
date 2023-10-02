@@ -29,11 +29,13 @@ import type * as z from "zod";
 import { useForm } from "react-hook-form";
 import { createItemSchema } from "~/zod-schema/item";
 import { useToast } from "~/components/ui/use-toast";
+import Loading from "~/components/loading";
 
 export default function CreateItem() {
   const router = useRouter();
+  const utils = api.useContext();
   const { toast } = useToast();
-  const { mutateAsync, isLoading, data } = api.item.create.useMutation();
+  const { mutateAsync, isLoading } = api.item.create.useMutation();
   // 1. Define your form.
   const form = useForm<z.infer<typeof createItemSchema>>({
     resolver: zodResolver(createItemSchema),
@@ -50,6 +52,7 @@ export default function CreateItem() {
       })
       .then(() => {
         void router.push("/");
+        void utils.item.getAll.invalidate();
         toast({
           title: "Item successfully created",
           description: "You can see your item in the home page.",
@@ -149,6 +152,7 @@ export default function CreateItem() {
           </Form>
         </CardContent>
       </Card>
+      <Loading isLoading={isLoading} />
     </div>
   );
 }

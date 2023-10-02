@@ -27,11 +27,13 @@ import {
 } from "~/components/ui/form";
 import { Input } from "../ui/input";
 import { DialogClose } from "@radix-ui/react-dialog";
+import Loading from "../loading";
 
 const BidItemDialog: React.FunctionComponent<{ item: Item }> = ({ item }) => {
   const router = useRouter();
+  const utils = api.useContext();
   const { toast } = useToast();
-  const { mutateAsync, isLoading, data } = api.item.bidItem.useMutation();
+  const { mutateAsync, isLoading } = api.item.bidItem.useMutation();
   const formSchema = z.object({
     bidPrice: z.coerce.number().gt(item.currentPrice).max(1000000),
   });
@@ -51,6 +53,7 @@ const BidItemDialog: React.FunctionComponent<{ item: Item }> = ({ item }) => {
       })
       .then(() => {
         void router.push("/");
+        void utils.auth.getProfile.invalidate();
         toast({
           title: "Item successfully created",
           description: "You can see your item in the home page.",
@@ -97,6 +100,7 @@ const BidItemDialog: React.FunctionComponent<{ item: Item }> = ({ item }) => {
           </form>
         </DialogContent>
       </Dialog>
+      <Loading isLoading={isLoading} />
     </Form>
   );
 };

@@ -18,8 +18,8 @@ const CompletedTable: React.FunctionComponent<{
         <tr className="bg-gray-100">
           <th className="px-4 py-2 text-left">Name</th>
           <th className="px-4 py-2 text-left">Current Price</th>
-          <th className="px-4 py-2 text-left">Duration</th>
-          <th className="px-4 py-2 text-left">Countdown</th>
+          <th className="px-4 py-2 text-left">Create At</th>
+          <th className="px-4 py-2 text-left">End Time</th>
           <th className="px-4 py-2 text-left">Winner</th>
         </tr>
       </thead>
@@ -28,9 +28,11 @@ const CompletedTable: React.FunctionComponent<{
           <tr key={item.id}>
             <td className="px-4 py-2">{item.name}</td>
             <td className="px-4 py-2">${item.currentPrice}</td>
-            <td className="px-4 py-2">{item.createdAt.toTimeString()}</td>
-            <td className="px-4 py-2">{item.auctionEndTime.toTimeString()}</td>
-            <td className="px-4 py-2">{item?.winner?.email ?? "No winner"}</td>
+            <td className="px-4 py-2">{item.createdAt.toLocaleString()}</td>
+            <td className="px-4 py-2">
+              {item.auctionEndTime.toLocaleString()}
+            </td>
+            <td className="px-4 py-2">{item.winner?.email ?? "No winner"}</td>
           </tr>
         ))}
       </tbody>

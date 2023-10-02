@@ -48,7 +48,13 @@ const Header: React.FunctionComponent<{
                 </MenubarItem>
 
                 <MenubarSeparator />
-                <MenubarItem>Deposit</MenubarItem>
+                <MenubarItem
+                  onClick={() => {
+                    void router.push("/deposit");
+                  }}
+                >
+                  Deposit
+                </MenubarItem>
                 <MenubarSeparator />
                 <MenubarItem
                   onClick={() => {

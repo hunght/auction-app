@@ -38,7 +38,7 @@ export default async function handler(
             where: { id: item.id },
             data: { status: "COMPLETED", winnerId: sender.id },
           });
-
+          console.log("item.createdById", item.createdById);
           const transaction = await tx.transaction.create({
             data: {
               amount: bid.amount,
