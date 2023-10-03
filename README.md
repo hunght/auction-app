@@ -1,4 +1,3 @@
-````markdown
 # Online Auction System
 
 Welcome to the Online Auction System! This application allows users to create and bid on items in real-time auctions.
@@ -132,4 +131,7 @@ pnpm test:e2e   # runs e2e tests
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-````
+
+```
+
+```
