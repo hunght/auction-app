@@ -1,11 +1,11 @@
-import { type AppType } from "next/app";
-import { api } from "~/utils/api";
+import { type AppType } from 'next/app';
+import { api } from '~/utils/api';
 // import { HighlightInit } from "@highlight-run/next/client";
-import "~/styles/globals.css";
-import { Toaster } from "~/components/ui/toaster";
-import { env } from "~/env.mjs";
-import { useAuthRedirect } from "~/hooks/useAuthRedirect";
-import Header from "~/components/header";
+import '~/styles/globals.css';
+import { Toaster } from '~/components/ui/toaster';
+import { env } from '~/env.mjs';
+import { useAuthRedirect } from '~/hooks/useAuthRedirect';
+import Header from '~/components/header';
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const { user, isFetching, isError } = useAuthRedirect();

@@ -1,5 +1,5 @@
-import * as jwt from "jsonwebtoken";
-import { env } from "~/env.mjs";
+import * as jwt from 'jsonwebtoken';
+import { env } from '~/env.mjs';
 
 export function generateUniqueToken(): string {
   const rand = () => Math.random().toString(36);
@@ -15,10 +15,10 @@ export const generateToken = (userId: number): string => {
 
   // Options for the JWT token
   const options = {
-    expiresIn: "2h", // Token expiration time (e.g., 1 hour)
+    expiresIn: '2h', // Token expiration time (e.g., 1 hour)
   };
-  console.log("[generateToken] payload", payload);
-  console.log("[generateToken] env.JWT_SECRET", env.JWT_SECRET);
+  console.log('[generateToken] payload', payload);
+  console.log('[generateToken] env.JWT_SECRET', env.JWT_SECRET);
   // Sign the token with your secret key
   const token = jwt.sign(payload, env.JWT_SECRET, options);
 
@@ -33,14 +33,14 @@ type UserToken = {
 export const decodeAndVerifyJwtToken = (token?: string) => {
   try {
     if (!token) {
-      throw new Error("No token provided");
+      throw new Error('No token provided');
     }
     // Decode the JWT token
     const decoded = jwt.verify(token, env.JWT_SECRET);
     return decoded as UserToken;
   } catch (err) {
-    console.log("[decodeAndVerifyJwtToken] token", token);
-    console.log("[decodeAndVerifyJwtToken] env.JWT_SECRET", env.JWT_SECRET);
+    console.log('[decodeAndVerifyJwtToken] token', token);
+    console.log('[decodeAndVerifyJwtToken] env.JWT_SECRET', env.JWT_SECRET);
     throw err;
   }
 };

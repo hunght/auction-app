@@ -48,26 +48,21 @@ Follow these steps to set up the Online Auction System on your local machine:
 
 ### Installation
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/yourusername/online-auction-system.git
-   ```
-````
+1. Clone the repository
 
 2. Navigate to the project directory:
 
    ```bash
-   cd online-auction-system
+   cd auction-app
    ```
 
 3. Install dependencies:
 
    ```bash
-   npm install
+   pnpm install
    ```
 
-4. Create a `.env` file in the project root and set the following environment variables:
+4. Create a `.env` file from env.example and set the following environment variables:
 
    ```env
    DATABASE_URL=postgresql://yourusername:yourpassword@localhost:5432/online_auction
@@ -106,13 +101,25 @@ The Online Auction System follows a multi-tier architecture:
 
 - **Frontend:** Built using Next.js with a responsive user interface.
 
-- **Backend:** Written in Node.js using tRPC for REST API endpoints. The database is managed with Prisma.
+- **Backend:** Written in Node.js using tRPC for REST API endpoints (E2E typesafety). The database is managed with Prisma.
 
 - **Database:** MySQL hosted on PlanetScale is used as the database system to store user information, auction items, bids, transactions, and invoices.
 
 - **Authentication:** User authentication is implemented using custom authentication logic.
 
 - **Testing:** The project includes unit tests, integration tests, and end-to-end tests to ensure reliability and correctness.
+
+### Commands
+
+```bash
+pnpm build      # runs `prisma generate` + `prisma migrate` + `next build`
+pnpm db-reset   # resets local db
+pnpm dev        # starts next.js
+pnpm test-dev   # runs e2e tests on dev
+pnpm test-start # runs e2e tests on `next start` - build required before
+pnpm test:unit  # runs normal Vitest unit tests
+pnpm test:e2e   # runs e2e tests
+```
 
 ## TODO list:
 
@@ -125,3 +132,4 @@ The Online Auction System follows a multi-tier architecture:
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+````

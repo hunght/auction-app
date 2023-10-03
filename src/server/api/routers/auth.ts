@@ -1,17 +1,20 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
-} from "~/server/api/trpc";
-import * as bcrypt from "bcrypt";
-import { Resend } from "resend";
-import { EmailTemplate } from "~/components/email-template";
-import { env } from "~/env.mjs";
-import { generateToken, generateUniqueToken } from "~/server/ultil/token";
+} from '~/server/api/trpc';
+import * as bcrypt from 'bcrypt';
+import { Resend } from 'resend';
+import { EmailTemplate } from '~/components/email-template';
+import { env } from '~/env.mjs';
+import { generateToken, generateUniqueToken } from '~/server/ultil/token';
 
 const resend = new Resend(env.RESEND_API_KEY);
+console.log(`==== env.RESEND_API_KEY ===`);
+console.log(env.RESEND_API_KEY);
+console.log('==== end log ===');
 
 export const authRouter = createTRPCRouter({
   hello: publicProcedure
@@ -23,7 +26,7 @@ export const authRouter = createTRPCRouter({
     }),
   getProfile: protectedProcedure.query(async ({ ctx }) => {
     if (!ctx.user) {
-      throw new Error("No user");
+      throw new Error('No user');
     }
     const user = await ctx.db.user.findUnique({
       where: {
@@ -31,7 +34,7 @@ export const authRouter = createTRPCRouter({
       },
     });
     if (!user) {
-      throw new Error("No user");
+      throw new Error('No user');
     }
     return {
       user,
@@ -64,9 +67,9 @@ export const authRouter = createTRPCRouter({
       const verificationLink = `${env.BASE_URL}/verify?token=${uniqueVerificationToken}`;
 
       await resend.emails.send({
-        from: "Acme <onboarding@resend.dev>",
+        from: 'Acme <onboarding@resend.dev>',
         to: [email],
-        subject: "Verify your email",
+        subject: 'Verify your email',
         react: EmailTemplate({
           firstName: verificationLink,
         }) as React.ReactElement,
@@ -95,12 +98,12 @@ export const authRouter = createTRPCRouter({
       });
 
       if (!user) {
-        return { token: null, error: "Something went wrong" };
+        return { token: null, error: 'Something went wrong' };
       }
 
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (!passwordMatch) {
-        return { token: null, error: "Something went wrong" };
+        return { token: null, error: 'Something went wrong' };
       }
 
       return { token: generateToken(user.id), error: null };
