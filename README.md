@@ -111,6 +111,10 @@ The Online Auction System follows a multi-tier architecture:
 
 - **Testing:** The project includes unit tests, integration tests, and end-to-end tests to ensure reliability and correctness.
 
+- 💚 CI setup using GitHub Actions:
+  - ✅ E2E testing with [Playwright](https://playwright.dev/)
+  - ✅ Linting
+
 ### Commands
 
 ```bash
