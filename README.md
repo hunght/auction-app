@@ -1,40 +1,127 @@
-Outline a high-level approach for building the online auction system and provide insights into the considerations and trade-offs at each step. Please note that this is a conceptual overview, and in practice, you would need to dive deeper into implementation details.
+````markdown
+# Online Auction System
 
-- Problem Approach and Trade-offs:
+Welcome to the Online Auction System! This application allows users to create and bid on items in real-time auctions.
 
--Item Management:
+## Table of Contents
 
-Draft State: Allow users to create items in a draft state. Trade-off: Items in draft state won't be visible to other users until published.
-Scheduling Auctions: Use a background job or scheduler to transition items from draft to published based on auction start time. Trade-off: Additional complexity and resource usage.
-Authentication:
+- [Tech Stack](#tech-stack)
+- [Setup](#setup)
+- [Tests](#tests)
+- [Architecture Overview](#architecture-overview)
+- [Contributing](#contributing)
+- [License](#license)
 
-Roll Your Own Authentication: Implementing your authentication flow provides flexibility but may require more development effort compared to using prebuilt solutions like NextAuth.js. Trade-off: Security and maintenance overhead.
+## Tech Stack
 
-- Auction Logic:
+- **Frontend:**
 
-Real-time Bidding: Use WebSocket for real-time updates. Trade-off: Increased complexity and potential scaling challenges compared to polling.
-Bid Validation: Ensure bids meet criteria (higher than current highest bid and starting price) to maintain fairness in the auction.
-Invoice Model:
+  - [Next.js](https://nextjs.org/): A React framework for building the user interface.
+  - [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework for styling.
+  - [Shadcn UI](https://ui.shadcn.com/docs): A UI component library.
 
-Modeling Transactions: Introducing an Invoice model provides a structured way to handle transactions and associated data. Trade-off: Increased complexity compared to a simpler transaction model.
+- **Backend:**
 
-2. Project Documentation:
+  - [Prisma](https://prisma.io/): Database ORM for data modeling and queries.
+  - [tRPC](https://trpc.io/): A TypeScript-first API development framework.
 
-README.md: Create a detailed README.md that includes setup instructions, how to run tests, project architecture overview, and explanations of important design decisions and trade-offs.
+- **Database:**
 
-3. Communication:
+  - [PlanetScale (MySQL)](https://planetscale.com/): A cloud-hosted MySQL database platform.
 
-Maintain clear and consistent communication throughout the project. Document decisions, progress, and any challenges faced during development. Prepare for follow-up interviews to discuss the assignment in-depth. 4. Unit Tests and Integration Tests:
+- **Authentication:**
 
-Write unit tests to test individual components and functions in isolation.
-Write integration tests to test the interactions between different parts of your application, including the database and external services. 5. Implement Frontend:
+  - Custom authentication logic.
 
-Use a frontend framework like Next.js to build the user interface.
-Implement user registration, login, and account management components.
-Create UI components for listing auction items, bidding, and displaying auction details.
-Implement real-time updates using WebSocket or a similar technology.
-Ensure a responsive and user-friendly design. 6. Use ORM (Prisma):
+- **Testing:**
+  - [Jest](https://jestjs.io/): A JavaScript testing framework.
+  - [Testing Library](https://testing-library.com/): Utilities for testing React components.
 
-Define your database schema using Prisma.
-Use Prisma Client to interact with the database, including creating, reading, updating, and deleting records.
-Implement database queries and mutations in a structured manner to ensure data consistency and security.
+## Setup
+
+Follow these steps to set up the Online Auction System on your local machine:
+
+### Prerequisites
+
+- Node.js: [Download and Install Node.js](https://nodejs.org/)
+- PostgreSQL: [Download and Install PostgreSQL](https://www.postgresql.org/)
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/yourusername/online-auction-system.git
+   ```
+````
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd online-auction-system
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Create a `.env` file in the project root and set the following environment variables:
+
+   ```env
+   DATABASE_URL=postgresql://yourusername:yourpassword@localhost:5432/online_auction
+   JWT_SECRET=your_jwt_secret_here
+   ```
+
+   Replace `yourusername`, `yourpassword`, and `your_jwt_secret_here` with your MySQL credentials and a secure JWT secret.
+
+5. Set up the database using Prisma:
+
+   ```bash
+   npx prisma db push
+   ```
+
+6. Start the server:
+
+   ```bash
+   npm run dev
+   ```
+
+7. The application should now be running at `http://localhost:3000`.
+
+## Tests
+
+To run tests, execute the following command:
+
+```bash
+npm test
+```
+
+This will run unit tests, integration tests, and end-to-end tests to ensure the application's functionality is working as expected.
+
+## Architecture Overview
+
+The Online Auction System follows a multi-tier architecture:
+
+- **Frontend:** Built using Next.js with a responsive user interface.
+
+- **Backend:** Written in Node.js using tRPC for REST API endpoints. The database is managed with Prisma.
+
+- **Database:** MySQL hosted on PlanetScale is used as the database system to store user information, auction items, bids, transactions, and invoices.
+
+- **Authentication:** User authentication is implemented using custom authentication logic.
+
+- **Testing:** The project includes unit tests, integration tests, and end-to-end tests to ensure reliability and correctness.
+
+## TODO list:
+
+1. Real-time updates are handled using ably.io. However, in term of scaling. The application should be updated to use a message queue such as RabbitMQ or Kafka to handle real-time updates.
+2. Handle batch query for cron job, and timeout for cron job.
+3. Add more unit tests, integration tests, and end-to-end tests to ensure reliability and correctness.
+4. Add more features such as: search, filter, pagination, etc.
+5. Reset password and verify email resend.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
