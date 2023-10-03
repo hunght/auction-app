@@ -1,4 +1,5 @@
 # Online Auction System
+
 - live at: https://auction-app-rose.vercel.app/
 - demo: https://www.loom.com/share/8257615cd253428388a1b22327da40fb?sid=82f441d1-80f1-4955-a744-349feac1ed28
 
@@ -35,8 +36,8 @@ Welcome to the Online Auction System! This application allows users to create an
   - Custom authentication logic.
 
 - **Testing:**
-  - [Jest](https://jestjs.io/): A JavaScript testing framework.
-  - [Testing Library](https://testing-library.com/): Utilities for testing React components.
+  - [Vitest](https://vitest.dev/): Blazing Fast Unit Test Framework.
+  - [E2E testing](https://playwright.dev/): Playwright enables reliable end-to-end testing for modern web apps.
 
 ## Setup
 
