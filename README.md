@@ -1,4 +1,6 @@
 # Online Auction System
+- live at: https://auction-app-rose.vercel.app/
+- demo: https://www.loom.com/share/8257615cd253428388a1b22327da40fb?sid=82f441d1-80f1-4955-a744-349feac1ed28
 
 Welcome to the Online Auction System! This application allows users to create and bid on items in real-time auctions.
 
