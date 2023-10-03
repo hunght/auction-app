@@ -12,7 +12,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --cache --ext \".js,.ts,.tsx\" --report-unused-disable-directives --report-unused-disable-directives src",
-    "prebuild": "run-s generate migrate",
+    "prebuild": "run-s generate",
     "lint-fix": "pnpm lint --fix",
     "test": "run-s test:*",
     "test:unit": "vitest run",
