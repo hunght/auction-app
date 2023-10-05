@@ -62,7 +62,7 @@ Follow these steps to set up the Online Auction System on your local machine:
 4. Create a `.env` file from env.example and set the following environment variables:
 
    ```env
-   DATABASE_URL=postgresql://yourusername:yourpassword@localhost:5432/online_auction
+   DATABASE_URL=mysql://yourusername:yourpassword@localhost:5432/online_auction
    JWT_SECRET=your_jwt_secret_here
    ```
 
