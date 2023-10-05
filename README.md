@@ -43,11 +43,6 @@ Welcome to the Online Auction System! This application allows users to create an
 
 Follow these steps to set up the Online Auction System on your local machine:
 
-### Prerequisites
-
-- Node.js: [Download and Install Node.js](https://nodejs.org/)
-- PostgreSQL: [Download and Install PostgreSQL](https://www.postgresql.org/)
-
 ### Installation
 
 1. Clone the repository
