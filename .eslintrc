@@ -4,8 +4,7 @@
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:prettier/recommended"
+    "plugin:react-hooks/recommended"
   ],
   "parserOptions": {
     "project": "tsconfig.json",
@@ -17,7 +16,8 @@
     "@typescript-eslint/consistent-type-definitions": "off",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
-
+    "@typescript-eslint/no-unused-vars": 1,
+    "@typescript-eslint/array-type": 1,
     // Consider removing these rule disables for more type safety in your app ✨
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-floating-promises": "off",
